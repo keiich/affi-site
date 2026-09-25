@@ -1,0 +1,19 @@
+---
+import { FOOTER_LINKS, SITE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <nav aria-label="フッターメニュー">
+      <ul class="footer-links">
+        {FOOTER_LINKS.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+    <p class="footer-note">
+      当サイトはアフィリエイトプログラムに参加しており、記事内のリンクから商品・サービスを購入された場合に報酬を受け取ることがあります。
+    </p>
+    <p class="copyright">&copy; {year} {SITE.name}</p>
+  </div>
+</footer>

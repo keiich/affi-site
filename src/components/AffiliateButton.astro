@@ -1,0 +1,23 @@
+---
+/**
+ * 目立つボタン型のアフィリエイトリンク
+ * 例: <AffiliateButton href="https://..." note="無料プランあり">公式サイトを見る</AffiliateButton>
+ */
+export interface Props {
+  href: string;
+  /** ボタン下に表示する補足（任意） */
+  note?: string;
+  variant?: 'primary' | 'secondary';
+  pixel?: string;
+}
+
+const { href, note, variant = 'primary', pixel } = Astro.props;
+---
+
+<div class="aff-button-wrap">
+  <a href={href} class:list={['aff-button', `aff-button--${variant}`]} rel="sponsored nofollow noopener" target="_blank">
+    <slot />
+  </a>
+  {note && <p class="aff-button-note">{note}</p>}
+  {pixel && <img src={pixel} width="1" height="1" alt="" loading="lazy" class="aff-pixel" />}
+</div>

@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { countTags, getPublishedPosts } from '../../utils/posts';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedPosts();
+  return countTags(posts).map(({ tag }) => ({
+    params: { tag },
+    props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`「${tag}」の記事一覧`} description={`「${tag}」に関する記事の一覧です。`}>
+  <h1 class="page-title">#{tag}</h1>
+  <p class="page-lead">{posts.length}件の記事</p>
+  <div class="post-list">
+    {posts.map((post, i) => <PostCard post={post} eager={i === 0} />)}
+  </div>
+  <p class="more-link"><a href="/tags/">タグ一覧へ →</a></p>
+</BaseLayout>

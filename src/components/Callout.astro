@@ -1,0 +1,18 @@
+---
+/**
+ * 補足・注意ボックス
+ * 例: <Callout type="warn" title="注意">無料プランでは商用利用できません。</Callout>
+ */
+export interface Props {
+  type?: 'info' | 'tip' | 'warn';
+  title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+const icons = { info: 'ℹ️', tip: '💡', warn: '⚠️' };
+---
+
+<div class:list={['callout', `callout--${type}`]}>
+  {title && <p class="callout-title"><span aria-hidden="true">{icons[type]}</span> {title}</p>}
+  <div class="callout-body"><slot /></div>
+</div>

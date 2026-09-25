@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import FormattedDate from './FormattedDate.astro';
+import type { Post } from '../utils/posts';
+
+export interface Props {
+  post: Post;
+  /** ファーストビューの画像だけ eager 読み込みにする */
+  eager?: boolean;
+}
+
+const { post, eager = false } = Astro.props;
+const { title, description, pubDate, heroImage, tags } = post.data;
+---
+
+<article class="post-card">
+  <a href={`/blog/${post.id}/`} class="post-card-link">
+    {
+      heroImage && (
+        <Image
+          src={heroImage}
+          alt=""
+          width={720}
+          widths={[360, 720]}
+          sizes="(max-width: 720px) 100vw, 720px"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : 'auto'}
+          class="post-card-image"
+        />
+      )
+    }
+    <div class="post-card-body">
+      <h2 class="post-card-title">{title}</h2>
+      <p class="post-card-desc">{description}</p>
+      <div class="post-meta">
+        <FormattedDate date={pubDate} />
+        {tags.length > 0 && <span class="post-card-tags">{tags.map((t) => `#${t}`).join(' ')}</span>}
+      </div>
+    </div>
+  </a>
+</article>
