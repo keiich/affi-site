@@ -1,0 +1,48 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { OPERATOR, SITE } from '../consts';
+---
+
+<PageLayout title="運営者情報" description={`${SITE.name}の運営者情報です。サイトの目的や運営方針を紹介します。`}>
+  <h2>サイトについて</h2>
+  <p>
+    {SITE.name}は、AI
+    動画制作ツールの使い方・比較・制作記録を発信するブログです。実際にツールを使って動画を作りながら、つまずいたポイントや便利な使い方を、これから始める方にもわかりやすくまとめています。
+  </p>
+
+  <h2>運営方針</h2>
+  <ul>
+    <li>実際に使ったうえで、良い点・気になる点の両方を正直に書きます</li>
+    <li>料金や仕様は執筆時点の情報であることを明記し、定期的に見直します</li>
+    <li>広告を掲載する場合も、評価や順位は編集方針に基づいて決定します</li>
+  </ul>
+
+  <h2>運営者</h2>
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">サイト名</th>
+        <td>{SITE.name}</td>
+      </tr>
+      <tr>
+        <th scope="row">URL</th>
+        <td>{SITE.url}</td>
+      </tr>
+      <tr>
+        <th scope="row">運営者</th>
+        <td>{OPERATOR.name}</td>
+      </tr>
+      <tr>
+        <th scope="row">お問い合わせ</th>
+        <td><a href="/contact/">お問い合わせページ</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>広告について</h2>
+  <p>
+    当サイトはアフィリエイトプログラムに参加しており、記事内に広告リンクを含みます。詳しくは<a href="/privacy/"
+      >プライバシーポリシー</a
+    >をご覧ください。
+  </p>
+</PageLayout>

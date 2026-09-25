@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { countTags, getPublishedPosts, tagPath } from '../../utils/posts';
+
+const tags = countTags(await getPublishedPosts());
+---
+
+<BaseLayout title="タグ一覧" description="つくるノートのタグ一覧です。">
+  <h1 class="page-title">タグ一覧</h1>
+  <ul class="tag-list tag-list--large">
+    {
+      tags.map(({ tag, count }) => (
+        <li>
+          <a href={tagPath(tag)} class="tag">
+            #{tag} <span class="tag-count">{count}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

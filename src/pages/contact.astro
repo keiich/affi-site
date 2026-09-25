@@ -1,0 +1,33 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { OPERATOR, SITE } from '../consts';
+---
+
+<PageLayout title="お問い合わせ" description={`${SITE.name}へのお問い合わせはこちらからお願いします。`}>
+  <p>
+    {SITE.name}へのご意見・ご質問、記事内容の誤りのご指摘、お仕事のご依頼などは、以下よりお気軽にご連絡ください。
+  </p>
+
+  {
+    OPERATOR.contactFormUrl && (
+      <p class="contact-cta">
+        <a href={OPERATOR.contactFormUrl} class="aff-button aff-button--primary" target="_blank" rel="noopener">
+          お問い合わせフォームを開く
+        </a>
+      </p>
+    )
+  }
+
+  <h2>メールでのお問い合わせ</h2>
+  <p>
+    <strong>{OPERATOR.email}</strong><br />
+    <small>※ [at] を @ に置き換えて送信してください。</small>
+  </p>
+
+  <h2>ご注意</h2>
+  <ul>
+    <li>内容によっては返信までにお時間をいただく場合や、返信できない場合があります。</li>
+    <li>紹介している各サービスの使い方やトラブルについては、各サービスの公式サポートへお問い合わせください。</li>
+    <li>いただいた個人情報は<a href="/privacy/">プライバシーポリシー</a>に基づき適切に取り扱います。</li>
+  </ul>
+</PageLayout>

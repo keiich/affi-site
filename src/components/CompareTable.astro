@@ -1,0 +1,118 @@
+---
+/**
+ * 比較表（スマホでは横スクロール、左端の項目列は固定）
+ * 例:
+ * <CompareTable
+ *   caption="主要AI動画生成ツールの比較"
+ *   items={[
+ *     { name: 'Runway', href: 'https://...', badge: 'おすすめ' },
+ *     { name: 'Pika', href: 'https://...' },
+ *   ]}
+ *   rows={[
+ *     { label: '料金', values: ['月$12〜', '月$8〜'] },
+ *     { label: '日本語対応', values: ['×', '△'] },
+ *   ]}
+ * />
+ * 値に ◎ ○ △ × を使うと色付きで表示されます。
+ */
+export interface Item {
+  name: string;
+  /** アフィリエイトリンク（任意）。指定すると表の最下段にボタンを表示 */
+  href?: string;
+  /** 「おすすめ」などのラベル（任意） */
+  badge?: string;
+  /** ボタンの文言（既定: 詳細を見る） */
+  cta?: string;
+  pixel?: string;
+}
+
+export interface Row {
+  label: string;
+  values: string[];
+}
+
+export interface Props {
+  items: Item[];
+  rows: Row[];
+  caption?: string;
+  /** 強調する列（0 始まり）。未指定なら badge 付きの最初の列 */
+  highlight?: number;
+}
+
+const { items, rows, caption } = Astro.props;
+const highlight = Astro.props.highlight ?? items.findIndex((item) => item.badge);
+const hasLinks = items.some((item) => item.href);
+
+const markClass: Record<string, string> = {
+  '◎': 'mark mark--best',
+  '○': 'mark mark--good',
+  '〇': 'mark mark--good',
+  '△': 'mark mark--fair',
+  '×': 'mark mark--bad',
+};
+---
+
+<div class="compare-wrap">
+  <table class="compare-table">
+    {caption && <caption>{caption}</caption>}
+    <thead>
+      <tr>
+        <th scope="col" class="compare-corner"><span class="visually-hidden">項目</span></th>
+        {
+          items.map((item, i) => (
+            <th scope="col" class:list={{ 'is-highlight': i === highlight }}>
+              {item.badge && <span class="compare-badge">{item.badge}</span>}
+              {item.name}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row">{row.label}</th>
+            {items.map((_, i) => {
+              const value = row.values[i] ?? '-';
+              const cls = markClass[value.trim().charAt(0)];
+              return (
+                <td class:list={{ 'is-highlight': i === highlight }}>
+                  {cls ? (
+                    <>
+                      <span class={cls}>{value.trim().charAt(0)}</span>
+                      {value.trim().slice(1)}
+                    </>
+                  ) : (
+                    value
+                  )}
+                </td>
+              );
+            })}
+          </tr>
+        ))
+      }
+      {
+        hasLinks && (
+          <tr class="compare-cta-row">
+            <th scope="row">公式サイト</th>
+            {items.map((item, i) => (
+              <td class:list={{ 'is-highlight': i === highlight }}>
+                {item.href ? (
+                  <>
+                    <a href={item.href} class="compare-cta" rel="sponsored nofollow noopener" target="_blank">
+                      {item.cta ?? '詳細を見る'}
+                    </a>
+                    {item.pixel && <img src={item.pixel} width="1" height="1" alt="" loading="lazy" class="aff-pixel" />}
+                  </>
+                ) : (
+                  '-'
+                )}
+              </td>
+            ))}
+          </tr>
+        )
+      }
+    </tbody>
+  </table>
+</div>

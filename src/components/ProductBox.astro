@@ -1,0 +1,91 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * 商品・サービス紹介ボックス
+ * 例:
+ * <ProductBox
+ *   name="Runway"
+ *   description="テキストや画像から高品質な動画を生成できるAI動画ツール"
+ *   price="無料〜 / 有料プラン月$12〜"
+ *   pros={['映像のクオリティが高い', '編集機能が豊富']}
+ *   cons={['日本語UIがない']}
+ *   links={[{ label: '公式サイトを見る', href: 'https://...' }]}
+ * />
+ */
+export interface Props {
+  name: string;
+  description?: string;
+  image?: ImageMetadata;
+  price?: string;
+  rating?: number;
+  pros?: string[];
+  cons?: string[];
+  links: { label: string; href: string; pixel?: string }[];
+}
+
+const { name, description, image, price, rating, pros = [], cons = [], links } = Astro.props;
+const stars = rating ? '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating)) : '';
+---
+
+<aside class="product-box">
+  <div class="product-head">
+    {image && <Image src={image} alt={name} width={96} height={96} class="product-image" />}
+    <div>
+      <p class="product-name">{name}</p>
+      {
+        rating && (
+          <p class="product-rating" aria-label={`評価 ${rating} / 5`}>
+            <span aria-hidden="true">{stars}</span> {rating.toFixed(1)}
+          </p>
+        )
+      }
+      {price && <p class="product-price">{price}</p>}
+    </div>
+  </div>
+  {description && <p class="product-desc">{description}</p>}
+  {
+    (pros.length > 0 || cons.length > 0) && (
+      <div class="product-proscons">
+        {pros.length > 0 && (
+          <div>
+            <p class="pc-title pc-title--pros">良いところ</p>
+            <ul>
+              {pros.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {cons.length > 0 && (
+          <div>
+            <p class="pc-title pc-title--cons">気になるところ</p>
+            <ul>
+              {cons.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    )
+  }
+  <div class="product-links">
+    {
+      links.map((link, i) => (
+        <>
+          <a
+            href={link.href}
+            class:list={['aff-button', i === 0 ? 'aff-button--primary' : 'aff-button--secondary']}
+            rel="sponsored nofollow noopener"
+            target="_blank"
+          >
+            {link.label}
+          </a>
+          {link.pixel && <img src={link.pixel} width="1" height="1" alt="" loading="lazy" class="aff-pixel" />}
+        </>
+      ))
+    }
+  </div>
+</aside>

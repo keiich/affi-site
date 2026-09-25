@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { SITE } from '../consts';
+import { countTags, getPublishedPosts, tagPath } from '../utils/posts';
+
+const posts = await getPublishedPosts();
+const latest = posts.slice(0, 6);
+const tags = countTags(posts).slice(0, 12);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <h1 class="hero-title">{SITE.name}</h1>
+    <p class="hero-lead">AI動画制作ツールの使い方・比較・制作記録。<br />実際に手を動かして分かったことを、わかりやすくまとめています。</p>
+  </section>
+
+  <section aria-labelledby="latest-heading">
+    <h2 id="latest-heading" class="section-title">新着記事</h2>
+    <div class="post-list">
+      {latest.map((post, i) => <PostCard post={post} eager={i === 0} />)}
+    </div>
+    {posts.length > latest.length && <p class="more-link"><a href="/blog/">記事一覧を見る →</a></p>}
+  </section>
+
+  {
+    tags.length > 0 && (
+      <section aria-labelledby="tags-heading">
+        <h2 id="tags-heading" class="section-title">タグ</h2>
+        <ul class="tag-list">
+          {tags.map(({ tag, count }) => (
+            <li>
+              <a href={tagPath(tag)} class="tag">
+                #{tag} <span class="tag-count">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

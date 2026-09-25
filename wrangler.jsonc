@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Workers のプロジェクト名（*.workers.dev のサブドメインにも使われます）
+  "name": "tsukuru-note",
+  "compatibility_date": "2026-09-01",
+  // 静的アセットのみで配信（Worker スクリプトなし）
+  "assets": {
+    "directory": "./dist",
+    // 存在しないURLは dist/404.html を 404 ステータスで返す
+    "not_found_handling": "404-page",
+    // /about → /about/ のように末尾スラッシュへ正規化
+    "html_handling": "auto-trailing-slash"
+  },
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  }
+  // ドメインを Cloudflare に追加したあと、以下のコメントを外すと
+  // wrangler deploy 時にカスタムドメインが自動で接続されます
+  // "routes": [
+  //   { "pattern": "tsukuru-note.com", "custom_domain": true }
+  // ]
+}

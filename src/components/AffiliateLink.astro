@@ -1,0 +1,17 @@
+---
+/**
+ * 文中で使うアフィリエイトリンク
+ * 例: <AffiliateLink href="https://px.a8.net/..." pixel="https://www12.a8.net/0.gif?...">Runwayの公式サイト</AffiliateLink>
+ */
+export interface Props {
+  href: string;
+  /** ASP が発行するインプレッション計測用 1x1 画像の URL（任意） */
+  pixel?: string;
+}
+
+const { href, pixel } = Astro.props;
+---
+
+<a href={href} class="aff-link" rel="sponsored nofollow noopener" target="_blank"><slot /></a>{
+  pixel && <img src={pixel} width="1" height="1" alt="" loading="lazy" class="aff-pixel" />
+}
