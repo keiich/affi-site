@@ -18,7 +18,7 @@ export const OPERATOR = {
   // お問い合わせフォームのURL（Googleフォーム等）。空文字の場合はメール案内のみ表示
   contactFormUrl: '',
   // 問い合わせ用メールアドレス（スパム対策のため画像化や [at] 表記を推奨）
-  email: 'contact[at]tsukuru-note.com',
+  email: 'info[at]tsukuru-note.com',
 };
 
 // 1ページあたりの記事数

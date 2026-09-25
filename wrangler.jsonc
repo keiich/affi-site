@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // Workers のプロジェクト名（*.workers.dev のサブドメインにも使われます）
+  // Workers のプロジェクト名
   "name": "affi-site",
   "compatibility_date": "2026-09-01",
   // 静的アセットのみで配信（Worker スクリプトなし）
@@ -11,13 +11,14 @@
     // /about → /about/ のように末尾スラッシュへ正規化
     "html_handling": "auto-trailing-slash"
   },
-  "workers_dev": true,
+  // *.workers.dev とプレビューURLでは公開しない（カスタムドメインのみ）
+  "workers_dev": false,
+  "preview_urls": false,
   "observability": {
     "enabled": true
-  }
-  // ドメインを Cloudflare に追加したあと、以下のコメントを外すと
-  // wrangler deploy 時にカスタムドメインが自動で接続されます
-  // "routes": [
-  //   { "pattern": "tsukuru-note.com", "custom_domain": true }
-  // ]
+  },
+  // wrangler deploy 時にカスタムドメインを自動で接続
+  "routes": [
+    { "pattern": "tsukuru-note.com", "custom_domain": true }
+  ]
 }
