@@ -110,7 +110,7 @@ npx wrangler login      # 初回のみ。ブラウザで Cloudflare にログイ
 npm run deploy          # = astro build && wrangler deploy
 ```
 
-初回デプロイ後、`https://tsukuru-note.<アカウントのサブドメイン>.workers.dev` で公開されます。
+初回デプロイ後、`https://affi-site.<アカウントのサブドメイン>.workers.dev` で公開されます。
 カスタムドメインの接続手順は下記を参照してください。
 
 ### カスタムドメイン（tsukuru-note.com）の接続
@@ -120,7 +120,7 @@ npm run deploy          # = astro build && wrangler deploy
 3. Cloudflare 側でドメインが「アクティブ」になるまで待つ（数分〜最大 24 時間）
 4. 次のどちらかでカスタムドメインを接続
    - **A. 設定ファイルで接続**：`wrangler.jsonc` の `routes` のコメントを外して `npm run deploy`
-   - **B. ダッシュボードで接続**：Workers & Pages → `tsukuru-note` → 設定 → ドメインとルート → 追加 → カスタムドメイン → `tsukuru-note.com`
+   - **B. ダッシュボードで接続**：Workers & Pages → `affi-site` → 設定 → ドメインとルート → 追加 → カスタムドメイン → `tsukuru-note.com`
 5. `www.tsukuru-note.com` を使う場合は、重複コンテンツを避けるため apex へリダイレクト
    - ルール → リダイレクトルール → テンプレート「WWW から ルートへのリダイレクト」を使用
    - `www` の DNS レコード（プロキシ有効の `AAAA www 100::` など）が必要です
